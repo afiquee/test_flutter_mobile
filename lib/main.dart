@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_flutter_mobile/provider/contact_provider.dart';
+import 'package:test_flutter_mobile/provider/login_provider.dart';
+import 'package:test_flutter_mobile/screen/home_page.dart';
+import 'package:test_flutter_mobile/screen/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,28 +15,51 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+        ChangeNotifierProvider<ContactProvider>(
+            create: (_) => ContactProvider()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // TRY THIS: Try running your application with "flutter run". You'll see
+          // the application has a blue toolbar. Then, without quitting the app,
+          // try changing the seedColor in the colorScheme below to Colors.green
+          // and then invoke "hot reload" (save your changes or press the "hot
+          // reload" button in a Flutter-supported IDE, or press "r" if you used
+          // the command line to start the app).
+          //
+          // Notice that the counter didn't reset back to zero; the application
+          // state is not lost during the reload. To reset the state, use hot
+          // restart instead.
+          //
+          // This works for code too, not just values: Most code changes can be
+          // tested with just a hot reload.
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xFF0077B6),
+            onPrimary: Color(0xFFFFFFFF), // white
+            secondary: Color(0xCCCCCCCC), // dark grey
+            onSecondary: Color(0xFFEBEBEB), // light grey
+            error: Color(0xFFED1C2E), // red
+          ),
+          textTheme: TextTheme(
+            displayLarge: const TextStyle(
+              fontSize: 72,
+              fontWeight: FontWeight.bold,
+            ),
+            // ···
+            titleLarge: TextStyle(),
+            bodyMedium: TextStyle(fontSize: 12),
+            displaySmall: TextStyle(fontSize: 12),
+            displayMedium: TextStyle(fontSize: 12),
+          ),
+          useMaterial3: true,
+        ),
+        home: const HomePage(),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
